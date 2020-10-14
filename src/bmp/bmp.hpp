@@ -79,7 +79,12 @@ namespace bmp
         void set_pixel(uint32_t x0, uint32_t y0, uint8_t B, uint8_t G, uint8_t R, uint8_t A);
         void set_pixel(uint32_t x0, uint32_t y0, Pixel p);
 
+        Pixel get_pixel(uint32_t x0, uint32_t y0);
+
         void convert_black_and_white(ModeNoirBlanc M = MOYENNE);
+
+        int32_t get_width(){return bmp_info_header.width;}
+        int32_t get_height(){return bmp_info_header.height;}
 
 
     protected:

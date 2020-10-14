@@ -15,6 +15,7 @@ RM = del
 OBJSC =      \
 $(DOBJ)/main.o  \
 $(DOBJ)/bmp.o  \
+$(DOBJ)/ascii.o\
 
  
 #Rebuild all target
@@ -30,7 +31,7 @@ $(DBIN)/image_ascii: $(OBJSC)
 # objects
  
 # The main.cpp file
-$(DOBJ)/main.o : $(DSRC)/main.cpp $(DSRC)/bmp/bmp.hpp
+$(DOBJ)/main.o : $(DSRC)/main.cpp $(DSRC)/bmp/bmp.hpp $(DSRC)/ascii.hpp
 	@echo "============================================="
 	@echo "main.o"
 	$(CC) $(DSRC)/main.cpp -o $(DOBJ)/main.o
@@ -42,6 +43,13 @@ $(DOBJ)/bmp.o : $(DSRC)/bmp/bmp.cpp $(DSRC)/bmp/bmp.hpp
 	@echo "============================================="
 	@echo "bmp.o"
 	$(CC) $(DSRC)/bmp/bmp.cpp -o $(DOBJ)/bmp.o
+	@echo "============================================="
+
+# The ascii.cpp file
+$(DOBJ)/ascii.o : $(DSRC)/ascii.cpp $(DSRC)/ascii.hpp
+	@echo "============================================="
+	@echo "ascii.o"
+	$(CC) $(DSRC)/ascii.cpp -o $(DOBJ)/ascii.o
 	@echo "============================================="
 # Clean all target
 clean:
