@@ -140,7 +140,6 @@ namespace bmp
     void Image::set_pixel(uint32_t x0, uint32_t y0, uint8_t B, uint8_t G, uint8_t R, uint8_t A) {
         if (x0 > (uint32_t)bmp_info_header.width || y0 > (uint32_t)bmp_info_header.height) {
             std::cout << x0 << "," << y0 << std::endl;
-            
             throw std::runtime_error("The point is outside the image boundaries!");
         }
 
@@ -157,6 +156,24 @@ namespace bmp
         set_pixel(x0, y0, p.B, p.G, p.R, p.A);
     }
 
+    Pixel Image::get_pixel(uint32_t x0, uint32_t y0){
+        if (x0 > (uint32_t)bmp_info_header.width || y0 > (uint32_t)bmp_info_header.height) {
+            std::cout << x0 << "," << y0 << std::endl;
+            throw std::runtime_error("The point is outside the image boundaries!");
+        }
+
+        Pixel p;
+        uint32_t channels = bmp_info_header.bit_count / 8;
+        p.B = data[channels * (y0 * bmp_info_header.width + x0) + 0];
+        p.G = data[channels * (y0 * bmp_info_header.width + x0) + 1];
+        p.R = data[channels * (y0 * bmp_info_header.width + x0) + 2];
+
+        if (channels == 4) {
+            p.A = data[channels * (y0 * bmp_info_header.width + x0) + 3];
+        }
+        return p;
+    }
+
     void Image::write_headers(std::ofstream &of) {
         of.write((const char*)&file_header, sizeof(file_header));
         of.write((const char*)&bmp_info_header, sizeof(bmp_info_header));
@@ -170,15 +187,13 @@ namespace bmp
 
         double moyenne;
         uint8_t R,G,B,min,max;
-        for (size_t y = 0; y < bmp_info_header.height; y++) {
-            for (size_t x = 0; x < bmp_info_header.width; x++) {
+        for (int y = 0; y < bmp_info_header.height; y++) {
+            for (int x = 0; x < bmp_info_header.width; x++) {
                 moyenne = 0;
                 if (M == LUMINOSITE) {
                     moyenne += 0.07*data[channels * (y * bmp_info_header.width + x) + 0];
                     moyenne += 0.71*data[channels * (y * bmp_info_header.width + x) + 1];
                     moyenne += 0.23*data[channels * (y * bmp_info_header.width + x) + 2];
-                    std::cout << "lumi" << std::endl;
-                    
                 }
                 else if (M == CLARTE) {
                     B = data[channels * (y * bmp_info_header.width + x) + 0];
@@ -189,17 +204,13 @@ namespace bmp
                     moyenne += std::min(min,R);
                     max = std::max(B,G);
                     moyenne += std::max(max, R);
-                    moyenne = moyenne/2;        
-                    std::cout << "clart" << std::endl;
-                    
+                    moyenne = moyenne/2;          
                 }
                 else if(M == MOYENNE){
                     moyenne += data[channels * (y * bmp_info_header.width + x) + 0];
                     moyenne += data[channels * (y * bmp_info_header.width + x) + 1];
                     moyenne += data[channels * (y * bmp_info_header.width + x) + 2];
-                    moyenne = moyenne/3;
-                    std::cout << "moy" << std::endl;
-                    
+                    moyenne = moyenne/3;       
                 }
                     set_pixel(x,y,Pixel{(uint8_t)moyenne,(uint8_t)moyenne,(uint8_t)moyenne,(uint8_t)255});
             }   
