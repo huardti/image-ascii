@@ -2,8 +2,8 @@
 #define _ASCII_H_
 
 #include <cstdint>
+#include "bmp.hpp"
 
-
-char grayToChar(uint8_t p);
+void toAscii(bmp::Image i);
 
 #endif // !_BMP_
