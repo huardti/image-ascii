@@ -7,10 +7,13 @@
 int main(int argc, char* argv[]) {
 
     if (argc != 2) {
-        std::cout << "nombre d'argument incorect" << std::endl;
+        std::cout << "usage: ./" << argv[0] << " [file_name.bmp]" << std::endl;
         return 0;
     }
-
+#ifdef _DEBUG
+    std::cout << "salut" << std::endl;
+    
+#endif // _DEBUG
     const char* file = argv[1];
     bmp::Image I(file);
     I.convert_black_and_white(bmp::LUMINOSITE);

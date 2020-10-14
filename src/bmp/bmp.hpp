@@ -66,7 +66,7 @@ namespace bmp
     {
     public:
         Image(const char* fname);
-        Image(uint32_t width, uint32_t height, bool has_alpha = true);
+        Image(int32_t width, int32_t height, bool has_alpha = true);
 
         ~Image();
 
@@ -100,7 +100,6 @@ namespace bmp
         uint32_t make_stride_aligned(uint32_t align_stride);
         void check_color_header(BMPColorHeader &bmp_color_header);
     };
-    
 }
 
 #endif // !_BMP_
