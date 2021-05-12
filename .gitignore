@@ -1,5 +1,7 @@
 /.vscode
 /ascii_image.code-workspace
-/build
+/bin
 /*.bmp
 /obj
+Makefile
+*.make
